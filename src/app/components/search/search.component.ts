@@ -20,6 +20,8 @@ export class SearchComponent implements OnInit {
   teamList: Teams[] = [];
   driverList: Driver[] = [];
   raceResult: any = [];
+  driverResult: any = [];
+  teamResult: any = [];
   type = 'races';
   year = 2023;
   value = '';
@@ -73,6 +75,10 @@ export class SearchComponent implements OnInit {
               url: '',
             };
             this.driverList.unshift(driver);
+            this.driverResult = res.result;
+            this.driverResult.sort(
+              (a: any, b: any) => b.totalPoint - a.totalPoint
+            );
             break;
           case 'teams':
             this.teamList = res.data;
@@ -83,6 +89,10 @@ export class SearchComponent implements OnInit {
               url: '',
             };
             this.teamList.unshift(team);
+            this.teamResult = res.result;
+            this.teamResult.sort(
+              (a: any, b: any) => b.totalPoint - a.totalPoint
+            );
             break;
           default:
             const race = {
@@ -98,6 +108,7 @@ export class SearchComponent implements OnInit {
             this.raceList = res.data;
             this.raceList.unshift(race);
             this.raceResult = res.result;
+
             break;
         }
       });

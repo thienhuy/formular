@@ -42,7 +42,8 @@
     </div>
   </div>
   <div class="title">
-    {{ year }} {{ type }} {{ type == "races" ? "result" : "standing" }}
+    {{ year }} {{ type == "teams" ? "constructors" : type }}
+    {{ type == "races" ? "result" : "standing" }}
   </div>
   <div class="table-wrapper">
     <table *ngIf="type == 'races'">
@@ -68,6 +69,46 @@
           <td>{{ rs.constructor.name }}</td>
           <td>{{ rs.laps }}</td>
           <td>{{ rs.time }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table *ngIf="type == 'drivers'">
+      <thead>
+        <tr>
+          <th>POS</th>
+          <th>DRIVER</th>
+          <th>NATIONALITY</th>
+          <th>CAR</th>
+          <th>PTS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ds of driverResult; let i = index">
+          <td>
+            {{ i + 1 }}
+          </td>
+          <td>{{ ds.driver.forename }} {{ ds.driver.surname }}</td>
+          <td>{{ ds.driver.nationality }}</td>
+          <td>{{ ds.constructor.name }}</td>
+          <td>{{ ds.totalPoint }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table *ngIf="type == 'teams'">
+      <thead>
+        <tr>
+          <th>POS</th>
+          <th>TEAM</th>
+          <th>PTS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ts of teamResult; let i = index">
+          <td>
+            {{ i + 1 }}
+          </td>
+          <td>{{ ts.constructor.name }}</td>
+          <td>{{ ts.totalPoint }}</td>
         </tr>
       </tbody>
     </table>
