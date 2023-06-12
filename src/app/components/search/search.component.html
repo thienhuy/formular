@@ -5,9 +5,9 @@
         <div
           class="item"
           [class.active]="season.active"
-          (click)="clickSeason(season)"
+          (click)="handleSeason(season)"
         >
-          <span>{{ season.year }}</span>
+          <span class="f1-text">{{ season.year }}</span>
         </div>
       </ng-container>
     </div>
@@ -16,101 +16,71 @@
         <div
           class="item"
           [class.active]="type.active"
-          (click)="clickType(type)"
+          (click)="handleType(type)"
         >
-          <span>{{ type.name }}</span>
+          <span class="f1-text">{{ type.name }}</span>
         </div>
       </ng-container>
     </div>
     <div class="search-item value">
       <ng-container *ngIf="type == 'races'">
-        <div class="item" *ngFor="let race of raceList">
-          {{ race?.country }}
+        <div
+          class="item"
+          [class.active]="race.active"
+          (click)="handleValue(race, type)"
+          *ngFor="let race of raceList"
+        >
+          <span class="f1-text">{{ race?.country }}</span>
         </div>
       </ng-container>
       <ng-container *ngIf="type == 'drivers'">
-        <div class="item" *ngFor="let driver of driverList">
-          {{ driver?.surname }}<span *ngIf="driver?.forename != ''">,</span>
-          {{ driver?.forename }}
+        <div
+          class="item"
+          [class.active]="driver.active"
+          (click)="handleValue(driver, type)"
+          *ngFor="let driver of driverList"
+        >
+          <span class="f1-text">
+            {{ driver?.surname }}<span *ngIf="driver?.forename != ''">,</span>
+            {{ driver?.forename }}
+          </span>
         </div>
       </ng-container>
       <ng-container *ngIf="type == 'teams'">
-        <div class="item" *ngFor="let team of teamList">
-          {{ team?.name }}
+        <div
+          class="item"
+          [class.active]="team.active"
+          (click)="handleValue(team, type)"
+          *ngFor="let team of teamList"
+        >
+          <span class="f1-text">
+            {{ team?.name }}
+          </span>
         </div>
       </ng-container>
     </div>
   </div>
-  <div class="title">
-    {{ year }} {{ type == "teams" ? "constructors" : type }}
-    {{ type == "races" ? "result" : "standing" }}
+  <div class="title f1-text">
+    <ng-container *ngIf="type != 'races'">
+      {{ year }} {{ type == "teams" ? "constructors" : type }}
+      {{ type == "races" ? "results" : "standings" }}
+      <span *ngIf="value != ''">: {{ valueName }}</span>
+    </ng-container>
+    <ng-container *ngIf="type == 'races'">
+      <ng-container *ngIf="value == ''">
+        {{ year }} races results
+      </ng-container>
+      <ng-container *ngIf="value != ''">
+        FORMULA 1 {{ valueName }} {{ year }} - races results
+      </ng-container>
+    </ng-container>
   </div>
   <div class="table-wrapper">
-    <table *ngIf="type == 'races'">
-      <thead>
-        <tr>
-          <th>GRAND PRIX</th>
-          <th>DATE</th>
-          <th>WINNER</th>
-          <th>CAR</th>
-          <th>LAPS</th>
-          <th>TIME</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let rs of raceResult">
-          <td>
-            {{ rs.race.circuit.country }}
-          </td>
-          <td>
-            {{ rs.race.date }}
-          </td>
-          <td>{{ rs.driver.forename }} {{ rs.driver.surname }}</td>
-          <td>{{ rs.constructor.name }}</td>
-          <td>{{ rs.laps }}</td>
-          <td>{{ rs.time }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <table *ngIf="type == 'drivers'">
-      <thead>
-        <tr>
-          <th>POS</th>
-          <th>DRIVER</th>
-          <th>NATIONALITY</th>
-          <th>CAR</th>
-          <th>PTS</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let ds of driverResult; let i = index">
-          <td>
-            {{ i + 1 }}
-          </td>
-          <td>{{ ds.driver.forename }} {{ ds.driver.surname }}</td>
-          <td>{{ ds.driver.nationality }}</td>
-          <td>{{ ds.constructor.name }}</td>
-          <td>{{ ds.totalPoint }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <table *ngIf="type == 'teams'">
-      <thead>
-        <tr>
-          <th>POS</th>
-          <th>TEAM</th>
-          <th>PTS</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let ts of teamResult; let i = index">
-          <td>
-            {{ i + 1 }}
-          </td>
-          <td>{{ ts.constructor.name }}</td>
-          <td>{{ ts.totalPoint }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <ng-container *ngIf="value == ''">
+      <app-result [data]="data"></app-result>
+    </ng-container>
+    <ng-container *ngIf="value != ''">
+      <app-result-value [data]="dataValue"></app-result-value>
+    </ng-container>
   </div>
 </section>

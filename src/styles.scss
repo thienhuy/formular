@@ -1,4 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+@import "bootstrap/scss/bootstrap";
+
+@font-face {
+  font-family: "F1";
+  src: url("/assets/fonts/Formula1.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.f1-text {
+  font-family: "F1";
+}
+
+table {
+  width: 100%;
+  thead,
+  tbody {
+    tr {
+      th,
+      td {
+        padding: 18px 20px 14px;
+        vertical-align: middle;
+      }
+    }
+  }
+  thead {
+    tr {
+      th {
+        text-align: left;
+        text-transform: uppercase;
+        font-weight: 500;
+        color: gray;
+        font-size: 0.9rem;
+      }
+    }
+  }
+  tbody {
+    tr {
+      &:nth-child(odd) {
+        background-color: #f4f4f4;
+      }
+      .no-result {
+        text-align: center;
+      }
+    }
+  }
+}

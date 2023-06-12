@@ -7,4 +7,5 @@ export interface Races {
   location: string;
   name: string;
   url: string;
+  active: boolean;
 }

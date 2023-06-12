@@ -8,4 +8,5 @@ export interface Driver {
   dob: string;
   nationality: string;
   url: string;
+  active: boolean;
 }

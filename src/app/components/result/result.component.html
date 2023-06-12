@@ -1,1 +1,87 @@
-<p>result works!</p>
+<table *ngIf="data.type == 'races'">
+  <thead>
+    <tr>
+      <th>GRAND PRIX</th>
+      <th>DATE</th>
+      <th>WINNER</th>
+      <th>CAR</th>
+      <th>LAPS</th>
+      <th>TIME</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="data.arrResult.length > 0">
+      <tr *ngFor="let rs of data.arrResult">
+        <td>
+          {{ rs.race.circuit.country }}
+        </td>
+        <td>
+          {{ rs.race.date | date : "d MMM y" }}
+        </td>
+        <td>{{ rs.driver.forename }} {{ rs.driver.surname }}</td>
+        <td>{{ rs.constructor.name }}</td>
+        <td>{{ rs.laps }}</td>
+        <td>{{ rs.time }}</td>
+      </tr>
+    </ng-container>
+    <ng-container *ngIf="data.arrResult.length == 0">
+      <tr>
+        <td class="no-result" colspan="7">No Result Found</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+<table *ngIf="data.type == 'drivers'">
+  <thead>
+    <tr>
+      <th>POS</th>
+      <th>DRIVER</th>
+      <th>NATIONALITY</th>
+      <th>CAR</th>
+      <th>PTS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="data.arrResult.length > 0">
+      <tr *ngFor="let ds of data.arrResult; let i = index">
+        <td>
+          {{ i + 1 }}
+        </td>
+        <td>{{ ds.driver.forename }} {{ ds.driver.surname }}</td>
+        <td>{{ ds.driver.nationality }}</td>
+        <td>{{ ds.constructor.name }}</td>
+        <td>{{ ds.totalPoint }}</td>
+      </tr>
+    </ng-container>
+    <ng-container *ngIf="data.arrResult.length == 0">
+      <tr>
+        <td class="no-result" colspan="7">No Result Found</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+<table *ngIf="data.type == 'teams'">
+  <thead>
+    <tr>
+      <th>POS</th>
+      <th>TEAM</th>
+      <th>PTS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="data.arrResult.length > 0">
+      <tr *ngFor="let ts of data.arrResult; let i = index">
+        <td>
+          {{ i + 1 }}
+        </td>
+        <td>{{ ts.constructor.name }}</td>
+        <td>{{ ts.totalPoint }}</td>
+      </tr>
+    </ng-container>
+    <ng-container *ngIf="data.arrResult.length == 0">
+      <tr>
+        <td class="no-result" colspan="7">No Result Found</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

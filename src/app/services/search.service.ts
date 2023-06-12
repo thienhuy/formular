@@ -29,7 +29,23 @@ export class SearchService {
         map((data) => {
           return data;
         }),
-        catchError(this.handleError<Season[]>('getSeason', []))
+        catchError(this.handleError('getData', []))
+      );
+  }
+
+  filterData(data: Filter): Observable<any> {
+    return this.http
+      .get<any>('/season/filter', {
+        params: new HttpParams()
+          .set('year', data.season)
+          .set('type', data.type)
+          .set('value', data.value || ''),
+      })
+      .pipe(
+        map((data) => {
+          return data;
+        }),
+        catchError(this.handleError('getData', []))
       );
   }
 

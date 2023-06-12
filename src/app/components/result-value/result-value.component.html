@@ -1,0 +1,253 @@
+<ng-container *ngIf="data.type == 'teams'">
+  <table>
+    <thead>
+      <tr>
+        <th>GRAND PRIX</th>
+        <th>DATE</th>
+        <th>PTS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="data.arrResult.length > 0">
+        <tr *ngFor="let iT of data.arrResult">
+          <td>
+            {{ iT.race.circuit.country }}
+          </td>
+          <td>
+            {{ iT.race.date | date : "d MMM y" }}
+          </td>
+          <td>{{ iT.totalPoint }}</td>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="data.arrResult.length == 0">
+        <tr>
+          <td class="no-result" colspan="7">No Result Found</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</ng-container>
+<ng-container *ngIf="data.type == 'drivers'">
+  <table>
+    <thead>
+      <tr>
+        <th>GRAND PRIX</th>
+        <th>DATE</th>
+        <th>CAR</th>
+        <th>RACE POSITION</th>
+        <th>PTS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="data.arrResult.length > 0">
+        <tr *ngFor="let iT of data.arrResult">
+          <td>
+            {{ iT.race.circuit.country }}
+          </td>
+          <td>
+            {{ iT.race.date | date : "d MMM y" }}
+          </td>
+          <td>
+            {{ iT.constructor.name }}
+          </td>
+          <td>
+            {{ iT.position ? iT.position : "DNF" }}
+          </td>
+          <td>{{ iT.totalPoint }}</td>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="data.arrResult.length == 0">
+        <tr>
+          <td class="no-result" colspan="7">No Result Found</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</ng-container>
+<ng-container *ngIf="data.type == 'races'">
+  <div class="race-result-wrapper">
+    <div class="race-menu">
+      <div class="title f1-text">Race</div>
+      <ng-container *ngFor="let race of raceMenu">
+        <div
+          class="item"
+          [class.active]="race.active"
+          (click)="handleRace(race)"
+        >
+          <div class="text f1-text">{{ race.name }}</div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="race-result">
+      <ng-container *ngIf="type == 'race-result'">
+        <table>
+          <thead>
+            <tr>
+              <th>POS</th>
+              <th>NO</th>
+              <th>DRIVER</th>
+              <th>CAR</th>
+              <th>LAPS</th>
+              <th>TIME/RETIRED</th>
+              <th>PTS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="data.arrResult.length > 0">
+              <tr *ngFor="let result of data.arrResult; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ result.number }}</td>
+                <td>
+                  {{ result.driver.forename }} {{ result.driver.forename }}
+                </td>
+                <td>{{ result.constructor.name }}</td>
+                <td>{{ result.laps }}</td>
+                <td>{{ result.time == "\\N" ? "NDF" : result.time }}</td>
+                <td>{{ result.points }}</td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="data.arrResult.length == 0">
+              <tr>
+                <td class="no-result" colspan="7">No Result Found</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-container *ngIf="type == 'fastest-laps'">
+        <table>
+          <thead>
+            <tr>
+              <th>POS</th>
+              <th>NO</th>
+              <th>DRIVER</th>
+              <th>CAR</th>
+              <th>LAPS</th>
+              <th>TIME</th>
+              <th>AVG SPEED</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="data.arrResult.length > 0">
+              <tr *ngFor="let result of data.arrResult; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ result.number }}</td>
+                <td>
+                  {{ result.driver.forename }} {{ result.driver.forename }}
+                </td>
+                <td>{{ result.constructor.name }}</td>
+                <td>{{ result.laps }}</td>
+                <td>{{ result.fastestLapTime }}</td>
+                <td>{{ result.fastestLapSpeed }}</td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="data.arrResult.length == 0">
+              <tr>
+                <td class="no-result" colspan="7">No Result Found</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-container *ngIf="type == 'pit-stop'">
+        <table>
+          <thead>
+            <tr>
+              <th>STOPS</th>
+              <th>DRIVER</th>
+              <th>LAP</th>
+              <th>TIME OF DAY</th>
+              <th>TIME</th>
+              <th>TOTAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="data.pitStop.length > 0">
+              <tr *ngFor="let result of data.pitStop; let i = index">
+                <td>{{ result.stop }}</td>
+                <td>
+                  {{ result.driver.forename }} {{ result.driver.forename }}
+                </td>
+                <td>{{ result.lap }}</td>
+                <td>{{ result.time }}</td>
+                <td>{{ result.duration }}</td>
+                <td>{{ result.duration }}</td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="data.pitStop.length == 0">
+              <tr>
+                <td class="no-result" colspan="7">No Result Found</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-container *ngIf="type == 'starting-grid'">
+        <table>
+          <thead>
+            <tr>
+              <th>POS</th>
+              <th>NO</th>
+              <th>DRIVER</th>
+              <th>CAR</th>
+              <th>TIME</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="data.qualifying.length > 0">
+              <tr *ngFor="let result of data.qualifying; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ result.number }}</td>
+                <td>
+                  {{ result.driver.forename }} {{ result.driver.forename }}
+                </td>
+                <td>{{ result.constructor.name }}</td>
+                <td>{{ result.q3 }}</td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="data.qualifying.length == 0">
+              <tr>
+                <td class="no-result" colspan="7">No Result Found</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-container *ngIf="type == 'qualifying'">
+        <table>
+          <thead>
+            <tr>
+              <th>POS</th>
+              <th>NO</th>
+              <th>DRIVER</th>
+              <th>CAR</th>
+              <th>CAR</th>
+              <th>CAR</th>
+              <th>CAR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="data.qualifying.length > 0">
+              <tr *ngFor="let result of data.qualifying; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ result.number }}</td>
+                <td>
+                  {{ result.driver.forename }} {{ result.driver.forename }}
+                </td>
+                <td>{{ result.constructor.name }}</td>
+                <td>{{ result.q1 }}</td>
+                <td>{{ result.q2 }}</td>
+                <td>{{ result.q3 }}</td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="data.qualifying.length == 0">
+              <tr>
+                <td class="no-result" colspan="7">No Result Found</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

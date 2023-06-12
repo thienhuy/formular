@@ -1,0 +1,60 @@
+.race-result-wrapper {
+  display: flex;
+  justify-content: space-between;
+  .race-menu {
+    width: 25%;
+    .title {
+      border-left: 5px solid #e00;
+      background: #fff;
+      color: #15151e;
+      font-weight: 700;
+      padding: 25px 0 17px 25px;
+      text-transform: uppercase;
+    }
+    .item {
+      position: relative;
+      .text {
+        margin-left: 28px;
+        padding: 20px 0 17px 0;
+        border-bottom: 1px solid #e2e2e2;
+        font-weight: 500;
+        color: gray;
+        cursor: pointer;
+        text-transform: uppercase;
+      }
+      &.active {
+        background: #e6e6e6;
+        color: #15151e;
+        font-weight: 700;
+        .text {
+          color: #000000;
+          font-weight: bold;
+        }
+        &::after {
+          content: "";
+          position: absolute;
+          height: 100%;
+          width: 5px;
+          background: #000000;
+          top: 0;
+          left: 0;
+        }
+      }
+      &:hover {
+        background: #e6e6e6;
+        &::after {
+          content: "";
+          position: absolute;
+          height: 100%;
+          width: 5px;
+          background: #747474;
+          top: 0;
+          left: 0;
+        }
+      }
+    }
+  }
+  .race-result {
+    width: 70%;
+  }
+}

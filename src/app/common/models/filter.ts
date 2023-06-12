@@ -1,5 +1,6 @@
 export interface Filter {
   season: number;
   type: string;
-  value: string;
+  value?: string;
+  raceType?: string;
 }
