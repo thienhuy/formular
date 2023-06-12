@@ -1,0 +1,75 @@
+<section class="search-section">
+  <div class="search-wrapper">
+    <div class="search-item season">
+      <ng-container *ngFor="let season of seasonList">
+        <div
+          class="item"
+          [class.active]="season.active"
+          (click)="clickSeason(season)"
+        >
+          <span>{{ season.year }}</span>
+        </div>
+      </ng-container>
+    </div>
+    <div class="search-item type">
+      <ng-container *ngFor="let type of typeList">
+        <div
+          class="item"
+          [class.active]="type.active"
+          (click)="clickType(type)"
+        >
+          <span>{{ type.name }}</span>
+        </div>
+      </ng-container>
+    </div>
+    <div class="search-item value">
+      <ng-container *ngIf="type == 'races'">
+        <div class="item" *ngFor="let race of raceList">
+          {{ race?.country }}
+        </div>
+      </ng-container>
+      <ng-container *ngIf="type == 'drivers'">
+        <div class="item" *ngFor="let driver of driverList">
+          {{ driver?.surname }}<span *ngIf="driver?.forename != ''">,</span>
+          {{ driver?.forename }}
+        </div>
+      </ng-container>
+      <ng-container *ngIf="type == 'teams'">
+        <div class="item" *ngFor="let team of teamList">
+          {{ team?.name }}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="title">
+    {{ year }} {{ type }} {{ type == "races" ? "result" : "standing" }}
+  </div>
+  <div class="table-wrapper">
+    <table *ngIf="type == 'races'">
+      <thead>
+        <tr>
+          <th>GRAND PRIX</th>
+          <th>DATE</th>
+          <th>WINNER</th>
+          <th>CAR</th>
+          <th>LAPS</th>
+          <th>TIME</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rs of raceResult">
+          <td>
+            {{ rs.race.circuit.country }}
+          </td>
+          <td>
+            {{ rs.race.date }}
+          </td>
+          <td>{{ rs.driver.forename }} {{ rs.driver.surname }}</td>
+          <td>{{ rs.constructor.name }}</td>
+          <td>{{ rs.laps }}</td>
+          <td>{{ rs.time }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
